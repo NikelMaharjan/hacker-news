@@ -28,9 +28,7 @@ class CommentPage extends ConsumerWidget {
           child: Column(
 
             children:     news.kids.map((e) {
-
               final commentData = ref.watch(commentProvider(e));
-
               return commentData.when(
                   data: (data){
                     return Column(

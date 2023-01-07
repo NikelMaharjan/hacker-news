@@ -6,6 +6,7 @@ import 'package:hacker_news/views/comment_page.dart';
 import 'package:hacker_news/views/detail_page.dart';
 import 'package:hacker_news/widgets/shimmer.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatelessWidget {
    NewsPage({Key? key}) : super(key: key);
@@ -81,11 +82,18 @@ class NewsPage extends StatelessWidget {
                                                 ListTile(
                                                     leading: const Icon(Icons.newspaper),
                                                     title: const Text('story'),
-                                                    onTap: () {
+                                                    onTap: () async {
 
                                                       Navigator.of(context).pop();
 
-                                                      Get.to(DetailPage(data));
+                                                      final Uri url = Uri.parse(data.url);
+
+
+                                                      if (await canLaunchUrl(url)) {
+                                                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                                                      } else {
+                                                      throw "Could not launch $url";
+                                                      }
 
                                                     }
                                                 ),
@@ -97,7 +105,7 @@ class NewsPage extends StatelessWidget {
                                                       Navigator.of(context).pop();
 
 
-                                                      Get.to(CommentPage(data));
+                                                      Get.to(()=>CommentPage(data));
 
 
 
